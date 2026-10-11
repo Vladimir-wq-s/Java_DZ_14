@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Архитектура модуля</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <link href="https://cloudflare.com" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); min-height: 100vh; color: #f8fafc; font-family: 'Segoe UI', system-ui, sans-serif; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 25px; box-shadow: 0 25px 50px rgba(0,0,0,0.4); }
+        .data-block { background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 15px; transition: all 0.3s; }
+        .data-block:hover { border-color: #38bdf8; background: rgba(56, 189, 248, 0.05); }
+        .cyber-btn { transition: all 0.3s; border-radius: 10px; }
+        .cyber-btn:hover { background: #fff !important; color: #000 !important; transform: scale(1.02); }
+    </style>
+</head>
+<body>
+<div class="container py-5 d-flex justify-content-center">
+    <div class="glass-card w-100 p-5 animate__animated animate__jackInTheBox" style="max-width: 850px;">
+        <div class="d-flex justify-content-between align-items-start border-bottom border-secondary pb-4 mb-4">
+            <div>
+                <span class="badge rounded-pill px-3 py-2 text-uppercase fw-bold mb-3" style="background: rgba(167, 139, 250, 0.2); color: #c084fc; border: 1px solid #c084fc;" th:text="${shop.category}">Категория</span>
+                <h2 class="display-5 fw-bold text-white mb-1 animate__animated animate__pulse animate__infinite" th:text="${shop.name}">Название</h2>
+                <p class="text-info fs-5 mb-0 mt-2">📍 <span th:text="${shop.address}">Адрес</span></p>
+            </div>
+            <a th:href="@{/shops}" class="btn btn-outline-light cyber-btn px-4 py-2">← К ТЕРМИНАЛУ</a>
+        </div>
+
+        <div class="row g-4 fs-5" th:if="${shop != null}">
+            <div class="col-md-6">
+                <div class="p-3 data-block">
+                    <div class="text-secondary small fw-bold text-uppercase">⚡ Линия связи (Телефон)</div>
+                    <div class="text-white fw-medium mt-1 font-monospace" th:text="${shop.phone != '' ? shop.phone : 'Сигнал отсутствует'}"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 data-block">
+                    <div class="text-secondary small fw-bold text-uppercase">📡 Почтовый шлюз (Email)</div>
+                    <div class="text-white fw-medium mt-1" th:text="${shop.email != '' ? shop.email : 'Адрес не сгенерирован'}"></div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="p-3 data-block">
+                    <div class="text-secondary small fw-bold text-uppercase">🌐 Сетевой узел хоста (Веб-сайт)</div>
+                    <div class="mt-1">
+                        <a th:if="${shop.website != ''}" th:href="'http://' + ${shop.website}" target="_blank" class="text-decoration-none fw-bold text-info" th:text="${shop.website}"></a>
+                        <span th:if="${shop.website == ''}" class="text-muted small">Хостинг не привязан</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="p-4 data-block">
+                    <div class="text-secondary small fw-bold text-uppercase mb-2">💾 Описание ядра модуля</div>
+                    <p class="text-white-50 mb-0 lh-base" th:text="${shop.description != '' ? shop.description : 'Логическое описание отсутствует.'}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

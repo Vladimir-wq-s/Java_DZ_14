@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Конфигуратор объекта</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <link href="https://cloudflare.com" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); min-height: 100vh; color: #f8fafc; font-family: 'Segoe UI', system-ui, sans-serif; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .form-control { background: rgba(15, 23, 42, 0.6) !important; border: 1px solid rgba(255, 255, 255, 0.15) !important; color: #fff !important; border-radius: 10px; transition: all 0.3s; }
+        .form-control:focus { border-color: #a78bfa !important; box-shadow: 0 0 10px rgba(167, 139, 250, 0.4) !important; }
+        .cyber-btn { transition: all 0.3s; border-radius: 10px; }
+        .cyber-btn:hover { filter: brightness(1.2); transform: scale(1.02); }
+    </style>
+</head>
+<body>
+<div class="container py-5 d-flex justify-content-center">
+    <div class="glass-card w-100 animate__animated animate__backInDown" style="max-width: 750px;">
+        <div class="p-4 border-bottom border-secondary" style="background: linear-gradient(90deg, #4f46e5, #7c3aed); border-radius: 20px 20px 0 0;">
+            <h2 class="h4 mb-0 text-white fw-bold" th:text="${shop.id == null} ? '⚙️ Инициализация нового объекта' : '📝 Модификация ядра данных'">Форма</h2>
+        </div>
+        <div class="p-4">
+            <form th:action="@{/shops/save}" th:object="${shop}" method="post">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label class="form-label text-secondary small fw-bold">Идентификатор названия</label>
+                        <input type="text" th:field="*{name}" class="form-control form-control-lg" required placeholder="Например: DNS"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-secondary small fw-bold">Категориальный кластер</label>
+                        <input type="text" th:field="*{category}" class="form-control form-control-lg" required placeholder="Например: Электроника"/>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label text-secondary small fw-bold">Географические координаты (Адрес)</label>
+                        <input type="text" th:field="*{address}" class="form-control form-control-lg" required placeholder="г. Томск, ул. Ленина, д. 21"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-secondary small fw-bold">Канал связи (Телефон)</label>
+                        <input type="text" th:field="*{phone}" class="form-control form-control-lg" placeholder="8-800-770-79-99"/>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-secondary small fw-bold">Информационный шлюз (Email)</label>
+                        <input type="email" th:field="*{email}" class="form-control form-control-lg" placeholder="info@dns-shop.ru"/>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label text-secondary small fw-bold">Доменное имя хоста (Сайт)</label>
+                        <input type="text" th:field="*{website}" class="form-control form-control-lg" placeholder="dns-shop.ru"/>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label text-secondary small fw-bold">Логическое описание модуля</label>
+                        <textarea th:field="*{description}" class="form-control" rows="4" placeholder="Введите метаданные объекта..."></textarea>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-top border-secondary d-flex gap-2 justify-content-end">
+                    <a th:href="@{/shops}" class="btn btn-outline-light px-4 cyber-btn">ОТМЕНА</a>
+                    <button type="submit" class="btn btn-success px-4 fw-bold cyber-btn" style="background: #059669; border: none;">ЗАПИСАТЬ В СТРУКТУРУ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

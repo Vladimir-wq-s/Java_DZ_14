@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>⚡ Cyber CRM Stores</title>
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <link href="https://cloudflare.com" rel="stylesheet">
+    <style>
+        body { background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); min-height: 100vh; color: #f8fafc; font-family: 'Segoe UI', system-ui, sans-serif; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .glass-card:hover { transform: translateY(-5px); border-color: #818cf8; box-shadow: 0 15px 30px rgba(129, 140, 248, 0.15); }
+        .neon-text { text-shadow: 0 0 12px rgba(129, 140, 248, 0.6); }
+        .cyber-table th { text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; color: #94a3b8; border-bottom: 2px solid rgba(255, 255, 255, 0.1); }
+        .cyber-table td { color: #e2e8f0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .shop-link { color: #f8fafc; transition: color 0.3s; }
+        .shop-link:hover { color: #818cf8; text-shadow: 0 0 8px rgba(129, 140, 248, 0.4); }
+        .cyber-btn { position: relative; overflow: hidden; transition: all 0.3s; border-radius: 12px; }
+        .cyber-btn:hover { filter: brightness(1.2); transform: scale(1.03); box-shadow: 0 0 15px currentColor; }
+    </style>
+</head>
+<body>
+<div class="container py-5 animate__animated animate__fadeIn">
+    <!-- Шапка -->
+    <div class="glass-card p-4 mb-4 d-flex justify-content-between align-items-center animate__animated animate__slideInDown">
+        <div>
+            <h1 class="h2 mb-0 text-white fw-bold neon-text">✨ Cyber-Панель Магазинов</h1>
+            <p class="text-muted small mb-0 mt-1">Интеллектуальное управление торговыми точками нового поколения</p>
+        </div>
+        <a th:href="@{/shops/add}" class="btn btn-primary cyber-btn px-4 py-2.5 fw-bold" style="background: linear-gradient(90deg, #4f46e5, #7c3aed); border: none; color: #fff;">+ ДОБАВИТЬ ТОЧКУ</a>
+    </div>
+
+    <!-- Поисковый блок со вспышкой -->
+    <div class="glass-card p-4 mb-4 animate__animated animate__zoomIn animate__delay-1s">
+        <form th:action="@{/shops}" method="get" class="row g-3">
+            <div class="col-md-8">
+                <input type="text" name="search" th:value="${search}" class="form-control form-control-lg bg-dark text-white border-secondary" style="border-radius: 12px;" placeholder="Введите поисковый запрос (название, категория, адрес)...">
+            </div>
+            <div class="col-md-4 d-flex gap-2">
+                <button type="submit" class="btn btn-indigo text-white cyber-btn flex-grow-1 fw-bold" style="background: #4f46e5;">НАЙТИ</button>
+                <a th:href="@{/shops}" class="btn btn-outline-secondary cyber-btn flex-grow-1 d-flex align-items-center justify-content-center">СБРОСИТЬ</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Стеклянная таблица -->
+    <div class="glass-card p-0 overflow-hidden animate__animated animate__fadeInUp animate__delay-1s">
+        <div class="table-responsive">
+            <table class="table cyber-table table-hover align-middle mb-0">
+                <thead style="background: rgba(15, 23, 42, 0.5);">
+                <tr>
+                    <th class="ps-4 py-3">Торговая точка / Локация</th>
+                    <th class="py-3">Сектор рынка</th>
+                    <th class="pe-4 py-3 text-end">Терминал управления</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="shop : ${shops}" class="animate__animated animate__fadeIn">
+                    <td class="ps-4 py-3">
+                        <a th:href="@{/shops/{id}(id=${shop.id})}" class="text-decoration-none fw-bold shop-link fs-5" th:text="${shop.name}">Название</a>
+                        <div class="text-muted small mt-1">📍 <span th:text="${shop.address}">Адрес</span></div>
+                    </td>
+                    <td>
+                        <span class="badge rounded-pill px-3 py-2 border fw-bold" style="background: rgba(13, 148, 136, 0.2); color: #2dd4bf; border-color: #2dd4bf;" th:text="${shop.category}">Категория</span>
+                    </td>
+                    <td class="pe-4 text-end">
+                        <a th:href="@{/shops/edit/{id}(id=${shop.id})}" class="btn btn-sm btn-outline-warning cyber-btn me-2 px-3">✏️ Модифицировать</a>
+                        <a th:href="@{/shops/delete/{id}(id=${shop.id})}" onclick="return confirm('Вы уверены, что хотите деинсталлировать данный объект?');" class="btn btn-sm btn-outline-danger cyber-btn px-3">🗑️ Удалить</a>
+                    </td>
+                </tr>
+                <tr th:if="${shops.isEmpty()}">
+                    <td colspan="3" class="text-center py-5 text-muted fs-5 animate__animated animate__shakeX">Матрица данных пуста. Объекты по запросу не обнаружены 🔍</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
